@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: log-generator
+
+generator:
+  target-url: ${TARGET_URL:http://localhost:8080}
+  tick-ms: 1000   # как часто отправлять пачку
+  # Имитируемая инфраструктура (#8): кто кого вызывает.
+  services:
+    - name: gateway
+      calls: [orders]
+    - name: orders
+      calls: [payments, database]
+    - name: payments
+      calls: [database]
+    - name: database
+      calls: []
