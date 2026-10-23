@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: log-collector
+  jackson:
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logcollector:
+  correlation-window: 2m
+  fallback-team: platform
+  # Справочник «сервис — команда» (FR-11). Имена сервисов — как в генераторе.
+  teams:
+    - id: platform
+      name: Платформа
+      members: []
+      services: [gateway]
+    - id: orders
+      name: Заказы
+      members: []
+      services: [orders, payments]
+    - id: storage
+      name: Хранилище
+      members: []
+      services: [database]
